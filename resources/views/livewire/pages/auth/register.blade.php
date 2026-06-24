@@ -14,6 +14,7 @@ new #[Layout('layouts.guest')] class extends Component
     public string $email = '';
     public string $password = '';
     public string $password_confirmation = '';
+    public string $role = '';
 
     /**
      * Handle an incoming registration request.
@@ -21,18 +22,31 @@ new #[Layout('layouts.guest')] class extends Component
     public function register(): void
     {
         $validated = $this->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
-            'password' => ['required', 'string', 'confirmed', Rules\Password::defaults()],
-        ]);
+        'name' => ['required', 'string', 'max:255'],
+        'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+        'password' => ['required', 'string', 'confirmed', Rules\Password::defaults()],
+        'role' => ['required', 'in:merchant,employee,driver'],
+    ]);
 
         $validated['password'] = Hash::make($validated['password']);
 
         event(new Registered($user = User::create($validated)));
 
+        $user->assignRole($this->role);
+
         Auth::login($user);
 
-        $this->redirect(route('dashboard', absolute: false), navigate: true);
+        if ($user->hasRole('merchant')) {
+    $this->redirect(route('merchant.dashboard', absolute: false), navigate: true);
+}
+
+if ($user->hasRole('employee')) {
+    $this->redirect(route('employee.dashboard', absolute: false), navigate: true);
+}
+
+if ($user->hasRole('driver')) {
+    $this->redirect(route('driver.dashboard', absolute: false), navigate: true);
+}
     }
 }; ?>
 
@@ -52,6 +66,20 @@ new #[Layout('layouts.guest')] class extends Component
             <x-input-error :messages="$errors->get('email')" class="mt-2" />
         </div>
 
+        <!-- Role -->
+         <div class="mt-4">
+            <x-input-label for="role" :value="__('Role')" />
+            <select wire:model="role"
+                    id="role"
+                    class="block mt-1 w-full border-gray-300 rounded-md">
+                <option value="">Choose Role</option>
+                <option value="merchant">Merchant</option>
+                <option value="employee">Employee</option>
+                <option value="driver">Driver</option>
+            </select>
+
+            <x-input-error :messages="$errors->get('role')" class="mt-2" />
+        </div>
         <!-- Password -->
         <div class="mt-4">
             <x-input-label for="password" :value="__('Password')" />
