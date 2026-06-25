@@ -15,22 +15,19 @@ class OrdersTable
     {
         return $table
             ->columns([
-                TextColumn::make('merchant_id')
-                    ->numeric()
-                    ->sortable(),
+                TextColumn::make('merchant.name')
+                    ->label('Merchant'),
                 TextColumn::make('customer_name')
                     ->searchable(),
                 TextColumn::make('customer_phone')
                     ->searchable(),
-                TextColumn::make('governorate_id')
-                    ->numeric()
+                TextColumn::make('governorate.name')
+                    ->label('Governorate'),
+                TextColumn::make('city')
+                    ->searchable()
                     ->sortable(),
-                TextColumn::make('city_id')
-                    ->numeric()
-                    ->sortable(),
-                TextColumn::make('status_id')
-                    ->numeric()
-                    ->sortable(),
+                TextColumn::make('status.name')
+                    ->label('Status'),
                 TextColumn::make('total_price')
                     ->money()
                     ->sortable(),
@@ -42,6 +39,9 @@ class OrdersTable
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
+                TextColumn::make('roles.name')
+                    ->label('Role')
+                    ->badge(),
             ])
             ->filters([
                 //
