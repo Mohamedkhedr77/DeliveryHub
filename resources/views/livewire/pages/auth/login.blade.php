@@ -29,7 +29,7 @@ $user = auth()->user();
         } elseif ($user->hasRole('employee')) {
             $this->redirect(route('employee.dashboard', absolute: false), navigate: true);
         } elseif ($user->hasRole('driver')) {
-            $this->redirect(route('driver.dashboard', absolute: false), navigate: true);
+            $this->redirect(route('driver.dashboard', absolute: false));
         } else {
             // مسار احتياطي لو مستخدم عادي معندوش دور
             $this->redirectIntended(default: route('dashboard', absolute: false), navigate: true);

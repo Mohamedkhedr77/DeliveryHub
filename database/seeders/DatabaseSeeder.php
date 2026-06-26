@@ -22,32 +22,36 @@ class DatabaseSeeder extends Seeder
         $driverRole   = Role::create(['name' => 'driver']);   
 
         // Users
-        $adminUser = User::factory()->create([
+        $adminUser = User::create([
             'name' => 'System Admin',
             'email' => 'admin@deliveryhub.com',
-            'password' => bcrypt('password'), 
+            'password' => bcrypt('password'),
         ]);
+        $adminUser->forceFill(['email_verified_at' => now()])->save();
         $adminUser->assignRole($adminRole);
 
-        $employeeUser = User::factory()->create([
+        $employeeUser = User::create([
             'name' => 'Employee Account',
             'email' => 'employee@deliveryhub.com',
             'password' => bcrypt('password'),
         ]);
+        $employeeUser->forceFill(['email_verified_at' => now()])->save();
         $employeeUser->assignRole($employeeRole);
 
-        $merchantUser = User::factory()->create([
+        $merchantUser = User::create([
             'name' => 'Merchant Shop',
             'email' => 'merchant@deliveryhub.com',
             'password' => bcrypt('password'),
         ]);
+        $merchantUser->forceFill(['email_verified_at' => now()])->save();
         $merchantUser->assignRole($merchantRole);
 
-        $driverUser = User::factory()->create([
+        $driverUser = User::create([
             'name' => 'Captain Driver',
             'email' => 'driver@deliveryhub.com',
             'password' => bcrypt('password'),
         ]);
+        $driverUser->forceFill(['email_verified_at' => now()])->save();
         $driverUser->assignRole($driverRole);
 
         // Statuses

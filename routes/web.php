@@ -26,13 +26,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // 3. مسارات الموظف
     Route::middleware(['role:employee'])->prefix('employee')->group(function () {
-        Volt::route('/dashboard', 'employee.orders')
-            ->name('employee.dashboard');
+        Route::get('/dashboard', function () {
+            return '<h1>لوحة تحكم الموظف - تعيين الدليفري</h1>';
+        })->name('employee.dashboard');
     });
 
-    // 4. مسارات الدليفري
-    Route::middleware(['role:driver'])->prefix('driver')->group(function () {
-        Volt::route('/dashboard', 'driver.orders')
+    // 4. مسارات الدليفري - صفحة واحدة فيها كل حاجة
+    Route::middleware(['role:driver'])->group(function () {
+        Route::get('/dashboard', \App\Livewire\Driver\OrderBoard::class)
             ->name('driver.dashboard');
     });
 });
