@@ -23,7 +23,7 @@ new #[Layout('layouts.guest')] class extends Component
 $user = auth()->user();
 
         if ($user->hasRole('admin')) {
-            $this->redirect(route('admin.dashboard', absolute: false), navigate: true);
+            $this->redirect('/admin', navigate: true);
         } elseif ($user->hasRole('merchant')) {
             $this->redirect(route('merchant.dashboard', absolute: false), navigate: true);
         } elseif ($user->hasRole('employee')) {
