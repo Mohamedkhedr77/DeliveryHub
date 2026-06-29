@@ -1,16 +1,14 @@
 <?php
-
 namespace App\Filament\Resources\Orders\Schemas;
 use App\Models\User;
+use App\Models\Governorate;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
-use Filament\Schemas\Schema;
 use Filament\Forms\Components\Select;
-use App\Models\Governorate;
 use Filament\Forms\Components\Checkbox;
+use Filament\Schemas\Schema;
 use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Components\Utilities\Set;
-
 
 class OrderForm
 {
@@ -22,7 +20,7 @@ class OrderForm
                     ->label('Merchant')
                     ->options(
                         User::role('merchant')->pluck('name', 'id')->toArray()
-                                 )   
+                    )
                     ->searchable()
                     ->required(),
                 TextInput::make('customer_name')
@@ -33,83 +31,85 @@ class OrderForm
                 Textarea::make('address')
                     ->required()
                     ->columnSpanFull(),
-    
-
                 Select::make('governorate_id')
                     ->options(Governorate::pluck('name', 'id'))
                     ->searchable()
                     ->live()
-                    ->afterStateUpdated(function (Get $get, Set $set) {
-
-                        $governorate = Governorate::find($get('governorate_id'));
-
-                        $price = $governorate?->shipping_price ?? 0;
-
-                        $weight = (float) $get('weight');
-
-                        if ($weight > 3) {
-                            $price += ($weight - 3) * 15;
-                        }
-
-                        $set('total_price', $price);
-                    })
+                    ->afterStateUpdated(fn (Get $get, Set $set) =>
+                        self::updatePrice($get, $set)
+                    )
                     ->required(),
-
                 TextInput::make('city')
                     ->required()
                     ->maxLength(255),
                 Select::make('status_id')
                     ->relationship('status', 'name')
                     ->required(),
+                TextInput::make('order_value')
+                    ->label('قيمة الأوردر')
+                    ->numeric()
+                    ->prefix('EGP')
+                    ->live()
+                    ->afterStateUpdated(fn (Get $get, Set $set) =>
+                        self::updatePrice($get, $set)
+                    )
+                    ->required(),
                 TextInput::make('weight')
                     ->numeric()
                     ->suffix('kg')
                     ->live()
-                    ->helperText('في حالة زيادة الوزن عن 3 كجم يتم إضافة 15 جنيه لكل كجم إضافي.')
-                    ->afterStateUpdated(function (Get $get, Set $set) {
-
-                        $governorate = Governorate::find($get('governorate_id'));
-
-                        $price = $governorate?->shipping_price ?? 0;
-
-                        $weight = (float) $get('weight');
-
-                        if ($weight > 3) {
-                            $price += ($weight - 3) * 15;
-                        }
-
-                        $set('total_price', $price);
-                    })
+                    ->helperText('لو الوزن اكبر من  3 كجم يتم إضافة 15 جنيه لكل كجم زيادة')
+                    ->afterStateUpdated(fn (Get $get, Set $set) =>
+                        self::updatePrice($get, $set)
+                    )
                     ->required(),
                 Checkbox::make('is_village')
                     ->label('Delivery to a village')
-                    ->helperText('في حالة اختيار قرية، سيتم إضافة 30 جنيه إلى تكلفة الشحن.')
                     ->live()
-                    ->afterStateUpdated(function (Get $get, Set $set) {
-
-                        $governorate = Governorate::find($get('governorate_id'));
-
-                        $price = $governorate?->shipping_price ?? 0;
-
-                        $weight = (float) $get('weight');
-
-                        if ($weight > 3) {
-                            $price += ($weight - 3) * 15;
-                        }
-
-                        if ($get('is_village')) {
-                            $price += 30;
-                        }
-
-                        $set('total_price', $price);
-                    }),
+                    ->helperText('إضافة 30 جنيه للقرى')
+                    ->afterStateUpdated(fn (Get $get, Set $set) =>
+                        self::updatePrice($get, $set)
+                    ),
                 TextInput::make('total_price')
+                    ->label('الإجمالي')
                     ->numeric()
                     ->disabled()
                     ->dehydrated(),
+                Textarea::make('price_breakdown')
+                    ->label('تفاصيل السعر')
+                    ->disabled()
+                    ->dehydrated(false)
+                    ->columnSpanFull(),
+
                 Textarea::make('notes')
-                    ->default(null)
                     ->columnSpanFull(),
             ]);
+    }
+    private static function updatePrice(Get $get, Set $set): void
+    {
+        $governorate = Governorate::find($get('governorate_id'));
+        $baseShipping = $governorate?->shipping_price ?? 0;
+        $orderValue = (float) $get('order_value');
+        $weight = (float) $get('weight');
+        $total = $orderValue + $baseShipping;
+        $breakdown = [
+            "Order Value" => $orderValue,
+            "Shipping" => $baseShipping,
+        ];
+        if ($weight > 3) {
+            $extra = ($weight - 3) * 15;
+            $breakdown["Weight Price"] = $extra;
+            $total += $extra;
+        }
+        if ($get('is_village')) {
+            $breakdown["سعر القريه"] = 30;
+            $total += 30;
+        }
+        $breakdown["total price"] = $total;
+        $set('total_price', $total);
+        $set('price_breakdown', collect($breakdown)
+            ->map(fn ($v, $k) => "{$k}: {$v}")
+            ->implode("\n")
+        );
     }
 }

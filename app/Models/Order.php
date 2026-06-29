@@ -10,18 +10,16 @@ class Order extends Model
 {
     protected $fillable = [
     'merchant_id',
-    'branch_id',
-    'city',
     'customer_name',
     'customer_phone',
-    'governorate_id',
     'address',
-    'status_id',
+    'governorate_id',
+    'city',
+    'order_value',
     'weight',
-    'base_price',
-    'total_price',
     'is_village',
-    'notes',
+    'total_price',
+    'status_id',
 ];
 
     public function merchant()
