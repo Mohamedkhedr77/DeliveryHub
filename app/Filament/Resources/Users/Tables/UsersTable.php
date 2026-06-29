@@ -34,6 +34,17 @@ class UsersTable
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
+<<<<<<< HEAD
+=======
+                TextColumn::make('governorate.name')
+                    ->label('Governorate')
+                    ->searchable()
+                    ->sortable(),
+                TextColumn::make('city')
+                    ->label('City')
+                    ->searchable()
+                    ->sortable()
+>>>>>>> ba502d374805e14a4bff87105c4a440161c171d5
             ])
             ->filters([
                 //

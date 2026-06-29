@@ -2,10 +2,14 @@
 
 namespace Database\Seeders;
 
+<<<<<<< HEAD
 use App\Models\Governorate;
 use App\Models\User;
 use App\Models\Status;
 use App\Models\UndeliverableReason;
+=======
+use App\Models\User;
+>>>>>>> ba502d374805e14a4bff87105c4a440161c171d5
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role; 
@@ -14,6 +18,7 @@ class DatabaseSeeder extends Seeder
 {
     use WithoutModelEvents;
 
+<<<<<<< HEAD
     public function run(): void
     {
 <<<<<<< Updated upstream
@@ -51,11 +56,19 @@ class DatabaseSeeder extends Seeder
             ['name' => 'Sohag', 'shipping_price' => 110.00, 'created_at' => now(), 'updated_at' => now()],
         ]);
 >>>>>>> Stashed changes
+=======
+    /**
+     * Seed the application's database.
+     */
+    public function run(): void
+    {
+>>>>>>> ba502d374805e14a4bff87105c4a440161c171d5
         $adminRole    = Role::create(['name' => 'admin']);
         $merchantRole = Role::create(['name' => 'merchant']); 
         $employeeRole = Role::create(['name' => 'employee']); 
         $driverRole   = Role::create(['name' => 'driver']);   
 
+<<<<<<< HEAD
         // Users
         $adminUser = User::create([
             'name' => 'System Admin',
@@ -66,26 +79,50 @@ class DatabaseSeeder extends Seeder
         $adminUser->assignRole($adminRole);
 
         $employeeUser = User::create([
+=======
+        $adminUser = User::factory()->create([
+            'name' => 'System Admin',
+            'email' => 'admin@deliveryhub.com',
+            'password' => bcrypt('password'), 
+        ]);
+        $adminUser->assignRole($adminRole);
+
+        $employeeUser = User::factory()->create([
+>>>>>>> ba502d374805e14a4bff87105c4a440161c171d5
             'name' => 'Employee Account',
             'email' => 'employee@deliveryhub.com',
             'password' => bcrypt('password'),
         ]);
+<<<<<<< HEAD
         $employeeUser->forceFill(['email_verified_at' => now()])->save();
         $employeeUser->assignRole($employeeRole);
 
         $merchantUser = User::create([
+=======
+        $employeeUser->assignRole($employeeRole);
+
+      
+        $merchantUser = User::factory()->create([
+>>>>>>> ba502d374805e14a4bff87105c4a440161c171d5
             'name' => 'Merchant Shop',
             'email' => 'merchant@deliveryhub.com',
             'password' => bcrypt('password'),
         ]);
+<<<<<<< HEAD
         $merchantUser->forceFill(['email_verified_at' => now()])->save();
         $merchantUser->assignRole($merchantRole);
 
         $driverUser = User::create([
+=======
+        $merchantUser->assignRole($merchantRole);
+
+        $driverUser = User::factory()->create([
+>>>>>>> ba502d374805e14a4bff87105c4a440161c171d5
             'name' => 'Captain Driver',
             'email' => 'driver@deliveryhub.com',
             'password' => bcrypt('password'),
         ]);
+<<<<<<< HEAD
         $driverUser->forceFill(['email_verified_at' => now()])->save();
         $driverUser->assignRole($driverRole);
 
@@ -104,5 +141,8 @@ class DatabaseSeeder extends Seeder
         foreach ($reasons as $reason) {
             UndeliverableReason::firstOrCreate(['name' => $reason]);
         }
+=======
+        $driverUser->assignRole($driverRole);
+>>>>>>> ba502d374805e14a4bff87105c4a440161c171d5
     }
 }

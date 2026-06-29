@@ -23,13 +23,21 @@ new #[Layout('layouts.guest')] class extends Component
 $user = auth()->user();
 
         if ($user->hasRole('admin')) {
+<<<<<<< HEAD
             $this->redirect(route('admin.dashboard', absolute: false), navigate: true);
+=======
+            $this->redirect('/admin', navigate: true);
+>>>>>>> ba502d374805e14a4bff87105c4a440161c171d5
         } elseif ($user->hasRole('merchant')) {
             $this->redirect(route('merchant.dashboard', absolute: false), navigate: true);
         } elseif ($user->hasRole('employee')) {
             $this->redirect(route('employee.dashboard', absolute: false), navigate: true);
         } elseif ($user->hasRole('driver')) {
+<<<<<<< HEAD
             $this->redirect(route('driver.dashboard', absolute: false));
+=======
+            $this->redirect(route('driver.dashboard', absolute: false), navigate: true);
+>>>>>>> ba502d374805e14a4bff87105c4a440161c171d5
         } else {
             // مسار احتياطي لو مستخدم عادي معندوش دور
             $this->redirectIntended(default: route('dashboard', absolute: false), navigate: true);

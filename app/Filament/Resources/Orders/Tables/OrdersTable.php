@@ -31,6 +31,13 @@ class OrdersTable
                 TextColumn::make('total_price')
                     ->money()
                     ->sortable(),
+<<<<<<< HEAD
+=======
+                TextColumn::make('weight')
+                    ->label('Weight')
+                    ->suffix(' kg')
+                    ->sortable(),
+>>>>>>> ba502d374805e14a4bff87105c4a440161c171d5
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -38,10 +45,15 @@ class OrdersTable
                 TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
+<<<<<<< HEAD
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('roles.name')
                     ->label('Role')
                     ->badge(),
+=======
+                    ->toggleable(isToggledHiddenByDefault: true)
+                
+>>>>>>> ba502d374805e14a4bff87105c4a440161c171d5
             ])
             ->filters([
                 //

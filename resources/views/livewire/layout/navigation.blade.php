@@ -52,6 +52,13 @@ new class extends Component
                     </x-slot>
 
                     <x-slot name="content">
+<<<<<<< HEAD
+=======
+                        <x-dropdown-link :href="route('profile')" wire:navigate>
+                            {{ __('Profile') }}
+                        </x-dropdown-link>
+
+>>>>>>> ba502d374805e14a4bff87105c4a440161c171d5
                         <!-- Authentication -->
                         <button wire:click="logout" class="w-full text-start">
                             <x-dropdown-link>
@@ -90,6 +97,13 @@ new class extends Component
             </div>
 
             <div class="mt-3 space-y-1">
+<<<<<<< HEAD
+=======
+                <x-responsive-nav-link :href="route('profile')" wire:navigate>
+                    {{ __('Profile') }}
+                </x-responsive-nav-link>
+
+>>>>>>> ba502d374805e14a4bff87105c4a440161c171d5
                 <!-- Authentication -->
                 <button wire:click="logout" class="w-full text-start">
                     <x-responsive-nav-link>

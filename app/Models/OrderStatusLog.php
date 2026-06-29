@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class OrderStatusLog extends Model
 {
+<<<<<<< HEAD
     protected $fillable = [
         'order_id',
         'status_id',
@@ -27,4 +28,7 @@ class OrderStatusLog extends Model
     {
         return $this->belongsTo(User::class, 'changed_by');
     }
+=======
+    //
+>>>>>>> ba502d374805e14a4bff87105c4a440161c171d5
 }

@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class RejectionReason extends Model
 {
+<<<<<<< HEAD
     protected $fillable = [
         'order_id',
 <<<<<<< Updated upstream
@@ -28,4 +29,7 @@ class RejectionReason extends Model
     }
 =======
 >>>>>>> Stashed changes
+=======
+    //
+>>>>>>> ba502d374805e14a4bff87105c4a440161c171d5
 }
