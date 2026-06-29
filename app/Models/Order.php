@@ -9,15 +9,20 @@ use Illuminate\Database\Eloquent\Model;
 class Order extends Model
 {
     protected $fillable = [
-        'merchant_id',
-        'branch_id',
-        'city',
-        'customer_name',
-        'customer_phone',
-        'governorate_id',
-        'address',
-        'status_id',
-    ];
+    'merchant_id',
+    'branch_id',
+    'city',
+    'customer_name',
+    'customer_phone',
+    'governorate_id',
+    'address',
+    'status_id',
+    'weight',
+    'base_price',
+    'total_price',
+    'is_village',
+    'notes',
+];
 
     public function merchant()
     {

@@ -7,6 +7,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Schema;
 use Filament\Forms\Components\Select;
 use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\Hash;
 
 class UserForm
 {
@@ -23,13 +24,25 @@ class UserForm
                 DateTimePicker::make('email_verified_at'),
                 TextInput::make('password')
                     ->password()
-                    ->required(),
+                    ->revealable()
+                    ->dehydrated(fn ($state) => filled($state))
+                    ->dehydrateStateUsing(fn ($state) => Hash::make($state))
+                    ->required(fn (string $operation): bool => $operation === 'create'),
                 Select::make('roles')
                     ->label('Role')
                     ->relationship('roles', 'name')
                     ->preload()
                     ->searchable()
                     ->required(),
+                Select::make('governorate_id')
+                    ->relationship('governorate', 'name')
+                    ->label('Governorate')
+                    ->searchable()
+                    ->preload(),
+                TextInput::make('city')
+                    ->label('City')
+                    ->required()
+                    ->maxLength(255)
             ]);
     }
 }

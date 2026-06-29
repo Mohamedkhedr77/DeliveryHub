@@ -34,6 +34,14 @@ class UsersTable
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
+                TextColumn::make('governorate.name')
+                    ->label('Governorate')
+                    ->searchable()
+                    ->sortable(),
+                TextColumn::make('city')
+                    ->label('City')
+                    ->searchable()
+                    ->sortable()
             ])
             ->filters([
                 //

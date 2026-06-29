@@ -15,6 +15,7 @@ new #[Layout('layouts.guest') ] class extends Component
     public string $password = '';
     public string $password_confirmation = '';
     public string $role = '';
+    public ?int $governorate_id = null;
 
     /**
      * Handle an incoming registration request.
@@ -26,9 +27,11 @@ new #[Layout('layouts.guest') ] class extends Component
         'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
         'password' => ['required', 'string', 'confirmed', Rules\Password::defaults()],
         'role' => ['required', 'in:merchant,employee,driver'],
+        'governorate_id' => ['nullable','required_if:role,driver',],
     ]);
 
         $validated['password'] = Hash::make($validated['password']);
+        $validated['governorate_id'] = $this->governorate_id;
 
         event(new Registered($user = User::create($validated)));
 
@@ -37,16 +40,16 @@ new #[Layout('layouts.guest') ] class extends Component
         Auth::login($user);
 
         if ($user->hasRole('merchant')) {
-    $this->redirect(route('merchant.dashboard', absolute: false), navigate: true);
-}
+            $this->redirect(route('merchant.dashboard', absolute: false), navigate: true);
+        }
 
-if ($user->hasRole('employee')) {
-    $this->redirect(route('employee.dashboard', absolute: false), navigate: true);
-}
+        if ($user->hasRole('employee')) {
+             $this->redirect(route('employee.dashboard', absolute: false), navigate: true);
+        }
 
-if ($user->hasRole('driver')) {
-    $this->redirect(route('driver.dashboard', absolute: false), navigate: true);
-}
+        if ($user->hasRole('driver')) {
+             $this->redirect(route('driver.dashboard', absolute: false), navigate: true);
+        }
     }
 }; ?>
 
@@ -69,7 +72,7 @@ if ($user->hasRole('driver')) {
         <!-- Role -->
          <div class="mt-4">
             <x-input-label for="role" :value="__('Role')" />
-            <select wire:model="role"
+            <select wire:model.live="role"
                     id="role"
                     class="block mt-1 w-full border-gray-300 rounded-md">
                 <option value="">Choose Role</option>
@@ -80,6 +83,28 @@ if ($user->hasRole('driver')) {
 
             <x-input-error :messages="$errors->get('role')" class="mt-2" />
         </div>
+<!--governorate-->
+        @if($role == 'driver')
+    <div class="mt-4">
+        <x-input-label for="governorate_id" value="Governorate" />
+
+        <select wire:model="governorate_id"
+                id="governorate_id"
+                class="block mt-1 w-full rounded-md border-gray-300">
+
+            <option value="">Choose Governorate</option>
+
+            @foreach(\App\Models\Governorate::all() as $governorate)
+                <option value="{{ $governorate->id }}">
+                    {{ $governorate->name }}
+                </option>
+            @endforeach
+
+        </select>
+
+        <x-input-error :messages="$errors->get('form.governorate_id')" class="mt-2" />
+    </div>
+@endif
         <!-- Password -->
         <div class="mt-4">
             <x-input-label for="password" :value="__('Password')" />

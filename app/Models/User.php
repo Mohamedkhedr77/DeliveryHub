@@ -12,7 +12,7 @@ use Spatie\Permission\Traits\HasRoles;
 use Filament\Models\Contracts\FilamentUser; 
 use Filament\Panel; 
 
-#[Fillable(['name', 'email', 'password'])]
+#[Fillable(['name', 'email', 'password', 'city'])]
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable implements FilamentUser 
 {
@@ -40,4 +40,12 @@ class User extends Authenticatable implements FilamentUser
             'password' => 'hashed',
         ];
     }
+    public function city()
+{
+    return $this->belongsTo(City::class);
+}
+    public function governorate()
+{
+    return $this->belongsTo(Governorate::class);
+}
 }
