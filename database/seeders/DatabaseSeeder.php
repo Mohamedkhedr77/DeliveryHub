@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Governorate;
 use App\Models\User;
 use App\Models\Status;
 use App\Models\UndeliverableReason;
@@ -15,7 +16,41 @@ class DatabaseSeeder extends Seeder
 
     public function run(): void
     {
+<<<<<<< Updated upstream
         // Roles
+=======
+        $this->call(StatusSeeder::class);
+
+        Governorate::insert([
+            ['name' => 'Cairo', 'shipping_price' => 50.00, 'created_at' => now(), 'updated_at' => now()],
+            ['name' => 'Giza', 'shipping_price' => 55.00, 'created_at' => now(), 'updated_at' => now()],
+            ['name' => 'Alexandria', 'shipping_price' => 90.00, 'created_at' => now(), 'updated_at' => now()],
+            ['name' => 'Dakahlia', 'shipping_price' => 70.00, 'created_at' => now(), 'updated_at' => now()],
+            ['name' => 'Red Sea', 'shipping_price' => 150.00, 'created_at' => now(), 'updated_at' => now()],
+            ['name' => 'Beheira', 'shipping_price' => 80.00, 'created_at' => now(), 'updated_at' => now()],
+            ['name' => 'Fayoum', 'shipping_price' => 70.00, 'created_at' => now(), 'updated_at' => now()],
+            ['name' => 'Gharbia', 'shipping_price' => 65.00, 'created_at' => now(), 'updated_at' => now()],
+            ['name' => 'Ismailia', 'shipping_price' => 85.00, 'created_at' => now(), 'updated_at' => now()],
+            ['name' => 'Menofia', 'shipping_price' => 60.00, 'created_at' => now(), 'updated_at' => now()],
+            ['name' => 'Minya', 'shipping_price' => 90.00, 'created_at' => now(), 'updated_at' => now()],
+            ['name' => 'Qalyubia', 'shipping_price' => 60.00, 'created_at' => now(), 'updated_at' => now()],
+            ['name' => 'New Valley', 'shipping_price' => 105.00, 'created_at' => now(), 'updated_at' => now()],
+            ['name' => 'Suez', 'shipping_price' => 90.00, 'created_at' => now(), 'updated_at' => now()],
+            ['name' => 'Aswan', 'shipping_price' => 140.00, 'created_at' => now(), 'updated_at' => now()],
+            ['name' => 'Assiut', 'shipping_price' => 100.00, 'created_at' => now(), 'updated_at' => now()],
+            ['name' => 'Beni Suef', 'shipping_price' => 80.00, 'created_at' => now(), 'updated_at' => now()],
+            ['name' => 'Port Said', 'shipping_price' => 80.00, 'created_at' => now(), 'updated_at' => now()],
+            ['name' => 'Damietta', 'shipping_price' => 75.00, 'created_at' => now(), 'updated_at' => now()],
+            ['name' => 'Sharkia', 'shipping_price' => 60.00, 'created_at' => now(), 'updated_at' => now()],
+            ['name' => 'South Sinai', 'shipping_price' => 110.00, 'created_at' => now(), 'updated_at' => now()],
+            ['name' => 'Kafr El Sheikh', 'shipping_price' => 65.00, 'created_at' => now(), 'updated_at' => now()],
+            ['name' => 'Matrouh', 'shipping_price' => 95.00, 'created_at' => now(), 'updated_at' => now()],
+            ['name' => 'Luxor', 'shipping_price' => 130.00, 'created_at' => now(), 'updated_at' => now()],
+            ['name' => 'Qena', 'shipping_price' => 120.00, 'created_at' => now(), 'updated_at' => now()],
+            ['name' => 'North Sinai', 'shipping_price' => 95.00, 'created_at' => now(), 'updated_at' => now()],
+            ['name' => 'Sohag', 'shipping_price' => 110.00, 'created_at' => now(), 'updated_at' => now()],
+        ]);
+>>>>>>> Stashed changes
         $adminRole    = Role::create(['name' => 'admin']);
         $merchantRole = Role::create(['name' => 'merchant']); 
         $employeeRole = Role::create(['name' => 'employee']); 

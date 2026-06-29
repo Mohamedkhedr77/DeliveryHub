@@ -1,7 +1,11 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+<<<<<<< Updated upstream
 use Livewire\Volt\Volt;
+=======
+use App\Livewire\Driver\Dashboard as DriverDashboard;
+>>>>>>> Stashed changes
 
 Route::get('/', function () {
     return view('welcome');
@@ -31,11 +35,22 @@ Route::middleware(['auth', 'verified'])->group(function () {
         })->name('employee.dashboard');
     });
 
+<<<<<<< Updated upstream
     // 4. مسارات الدليفري - صفحة واحدة فيها كل حاجة
     Route::middleware(['role:driver'])->group(function () {
         Route::get('/dashboard', \App\Livewire\Driver\OrderBoard::class)
+=======
+    // 4. مسارات الدليفري
+    Route::middleware(['role:driver'])->prefix('driver')->group(function () {
+        Route::get('/dashboard', DriverDashboard::class)
+>>>>>>> Stashed changes
             ->name('driver.dashboard');
     });
+
+    // Profile route
+    Route::get('/profile', function () {
+        return view('profile');
+    })->name('profile');
 });
 
 // ملف مسارات الـ Auth الافتراضي لـ Breeze
