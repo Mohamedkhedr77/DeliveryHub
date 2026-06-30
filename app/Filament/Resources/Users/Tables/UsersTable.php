@@ -8,6 +8,8 @@ use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Filament\Tables\Filters\SelectFilter;
+use Spatie\Permission\Models\Role;
 
 class UsersTable
 {
@@ -23,9 +25,9 @@ class UsersTable
                 TextColumn::make('roles.name')
                     ->label('Role')
                     ->badge(),
-                TextColumn::make('email_verified_at')
-                    ->dateTime()
-                    ->sortable(),
+                // TextColumn::make('email_verified_at')
+                //     ->dateTime()
+                //     ->sortable(),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -44,7 +46,16 @@ class UsersTable
                     ->sortable()
             ])
             ->filters([
-                //
+                SelectFilter::make('role')
+                    ->label('Role')
+                    ->options(
+                        Role::pluck('name', 'name')->toArray()
+                    )
+                    ->query(function ($query, array $data) {
+                        if (! empty($data['value'])) {
+                            $query->role($data['value']);
+                        }
+                    }),
             ])
             ->recordActions([
                 ViewAction::make(),

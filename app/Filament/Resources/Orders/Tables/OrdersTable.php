@@ -8,6 +8,8 @@ use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Filament\Tables\Filters\SelectFilter;
+use App\Models\User;
 
 class OrdersTable
 {
@@ -17,6 +19,9 @@ class OrdersTable
             ->columns([
                 TextColumn::make('merchant.name')
                     ->label('Merchant'),
+                TextColumn::make('driver.name')
+                    ->label('Driver')
+                    ->searchable(),
                 TextColumn::make('customer_name')
                     ->searchable(),
                 TextColumn::make('customer_phone')
@@ -45,8 +50,17 @@ class OrdersTable
                     ->toggleable(isToggledHiddenByDefault: true)
                 
             ])
+            
             ->filters([
-                //
+                SelectFilter::make('status')
+    ->relationship('status', 'name')
+    ->label('Status'),
+                SelectFilter::make('driver_id')
+                    ->label('Driver')
+                    ->options(
+                        User::role('driver')->pluck('name', 'id')
+                    ),
+
             ])
             ->recordActions([
                 ViewAction::make(),

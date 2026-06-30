@@ -10,6 +10,7 @@ class Order extends Model
 {
     protected $fillable = [
     'merchant_id',
+    'driver_id',
     'customer_name',
     'customer_phone',
     'address',
@@ -36,4 +37,9 @@ class Order extends Model
     {
         return $this->belongsTo(Status::class);
     }
+    public function driver()
+    {
+        return $this->belongsTo(User::class, 'driver_id');
+    }
+    
 }

@@ -42,6 +42,23 @@ class OrderForm
                 TextInput::make('city')
                     ->required()
                     ->maxLength(255),
+                Select::make('driver_id')
+                    ->label('Driver')
+                    ->options(
+                        User::role('driver')
+                            ->with('governorate') // مهم لو العلاقة موجودة
+                            ->get()
+                            ->mapWithKeys(function ($driver) {
+                                return [
+                                    $driver->id => $driver->name .
+                                        ' - ' .
+                                        ($driver->governorate?->name ?? 'No Governorate')
+                                ];
+                            })
+                            ->toArray()
+                    )
+                    ->searchable()
+                    ->preload(),
                 Select::make('status_id')
                     ->relationship('status', 'name')
                     ->required(),
