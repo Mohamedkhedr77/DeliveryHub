@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 29, 2026 at 08:44 PM
+-- Generation Time: Jun 30, 2026 at 05:26 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -60,9 +60,7 @@ CREATE TABLE `cache` (
 --
 
 INSERT INTO `cache` (`key`, `value`, `expiration`) VALUES
-('laravel-cache-livewire-rate-limiter:16d36dff9abd246c67dfac3e63b993a169af77e6', 'i:1;', 1782754889),
-('laravel-cache-livewire-rate-limiter:16d36dff9abd246c67dfac3e63b993a169af77e6:timer', 'i:1782754889;', 1782754889),
-('laravel-cache-spatie.permission.cache', 'a:3:{s:5:\"alias\";a:0:{}s:11:\"permissions\";a:0:{}s:5:\"roles\";a:0:{}}', 1782835877);
+('laravel-cache-spatie.permission.cache', 'a:3:{s:5:\"alias\";a:0:{}s:11:\"permissions\";a:0:{}s:5:\"roles\";a:0:{}}', 1782861880);
 
 -- --------------------------------------------------------
 
@@ -250,7 +248,8 @@ INSERT INTO `model_has_roles` (`role_id`, `model_type`, `model_id`) VALUES
 (3, 'App\\Models\\User', 12),
 (4, 'App\\Models\\User', 6),
 (4, 'App\\Models\\User', 7),
-(4, 'App\\Models\\User', 16);
+(4, 'App\\Models\\User', 16),
+(4, 'App\\Models\\User', 17);
 
 -- --------------------------------------------------------
 
@@ -261,6 +260,7 @@ INSERT INTO `model_has_roles` (`role_id`, `model_type`, `model_id`) VALUES
 CREATE TABLE `orders` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `merchant_id` bigint(20) UNSIGNED NOT NULL,
+  `driver_id` bigint(20) UNSIGNED DEFAULT NULL,
   `customer_name` varchar(255) NOT NULL,
   `customer_phone` varchar(20) NOT NULL,
   `address` text NOT NULL,
@@ -280,10 +280,16 @@ CREATE TABLE `orders` (
 -- Dumping data for table `orders`
 --
 
-INSERT INTO `orders` (`id`, `merchant_id`, `customer_name`, `customer_phone`, `address`, `governorate_id`, `status_id`, `total_price`, `weight`, `notes`, `created_at`, `updated_at`, `city`, `order_value`, `is_village`) VALUES
-(3, 5, 'Malak Omar', '845452', 'لبعبف', 1, 3, 50.00, 2.00, NULL, '2026-06-25 16:58:24', '2026-06-29 14:16:31', 'غغبؤ', 0.00, 0),
-(4, 5, 'hfukb', '845452', 'dfghjkvhb', 14, 1, 90.00, 3.00, NULL, '2026-06-28 16:23:29', '2026-06-29 14:16:17', 'hftu', 0.00, 0),
-(5, 11, 'لبرنغ', '5217', 'تابلرلاتىنزمظ', 3, 2, 1225.00, 10.00, NULL, '2026-06-29 15:37:43', '2026-06-29 15:37:43', 'غفت', 1000.00, 1);
+INSERT INTO `orders` (`id`, `merchant_id`, `driver_id`, `customer_name`, `customer_phone`, `address`, `governorate_id`, `status_id`, `total_price`, `weight`, `notes`, `created_at`, `updated_at`, `city`, `order_value`, `is_village`) VALUES
+(3, 5, NULL, 'Malak Omar', '845452', 'لبعبف', 1, 3, 50.00, 2.00, NULL, '2026-06-25 16:58:24', '2026-06-29 14:16:31', 'غغبؤ', 0.00, 0),
+(4, 5, 17, 'hfukb', '845452', 'dfghjkvhb', 14, 4, 90.00, 3.00, NULL, '2026-06-28 16:23:29', '2026-06-29 22:54:48', 'hftu', 0.00, 0),
+(5, 11, NULL, 'لبرنغ', '5217', 'تابلرلاتىنزمظ', 3, 2, 1225.00, 10.00, NULL, '2026-06-29 15:37:43', '2026-06-29 15:37:43', 'غفت', 1000.00, 1),
+(6, 11, 17, 'Malak Omar', '845452', 'dugildc', 3, 5, 250.00, 5.00, NULL, '2026-06-29 20:32:47', '2026-06-29 22:54:57', 'hftu', 100.00, 1),
+(7, 11, 17, 'fgjhkl', '845452', 'dfghjhtgfd', 4, 3, 545.00, 8.00, NULL, '2026-06-29 21:31:07', '2026-06-29 23:50:26', 'sdefr', 400.00, 0),
+(8, 5, 17, 'يبلات', '75421', 'بلاتنم', 5, 4, 1055.00, 11.00, NULL, '2026-06-29 21:38:12', '2026-06-29 23:50:30', 'لاتن', 755.00, 1),
+(9, 8, 16, 'ليؤيات', '54210', 'يلتبنمب', 5, 6, 325.00, 7.00, NULL, '2026-06-29 21:40:32', '2026-06-29 23:48:03', 'الابل', 85.00, 1),
+(10, 11, 17, 'بلاتن', '5128', 'يبلاتن', 4, 5, 207.00, 5.00, NULL, '2026-06-29 23:18:55', '2026-06-29 23:50:34', 'fde', 77.00, 1),
+(11, 5, 17, 'Malak Omar', '85132', 'يبلاتنمةك', 5, 1, 315.00, 9.00, NULL, '2026-06-29 23:20:35', '2026-06-29 23:20:35', 'الا', 45.00, 1);
 
 -- --------------------------------------------------------
 
@@ -396,7 +402,8 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('Dz5uDE0yI9L5OgDVRiTWIdzqwW1xvD7S9wI9sluR', 3, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36', 'eyJfdG9rZW4iOiJKZTdpMGNwa2tZbWVzQk1kNDlzd1Q0SGllUUpDQ2g1RlRvaUtOTDkyIiwiX2ZsYXNoIjp7Im9sZCI6W10sIm5ldyI6W119LCJfcHJldmlvdXMiOnsidXJsIjoiaHR0cDpcL1wvMTI3LjAuMC4xOjgwMDBcL2FkbWluXC9vcmRlcnMiLCJyb3V0ZSI6ImZpbGFtZW50LmFkbWluLnJlc291cmNlcy5vcmRlcnMuaW5kZXgifSwidXJsIjpbXSwibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiOjMsInBhc3N3b3JkX2hhc2hfd2ViIjoiMTFkYzQ1Mjg5ZWI4ZjMyYjBjOTMwZGEzMjVlZTI5YjEzMWNmNTlkOTFjOTg4MTk1YWUzZWMwOWIyODIyMjc5YSIsInRhYmxlcyI6eyI0NGZmNzhhMmViNGI4Zjc5ZWFkMTlmYWYwZTY3MzI1OF9jb2x1bW5zIjpbeyJ0eXBlIjoiY29sdW1uIiwibmFtZSI6Im5hbWUiLCJsYWJlbCI6Ik5hbWUiLCJpc0hpZGRlbiI6ZmFsc2UsImlzVG9nZ2xlZCI6dHJ1ZSwiaXNUb2dnbGVhYmxlIjpmYWxzZSwiaXNUb2dnbGVkSGlkZGVuQnlEZWZhdWx0IjpudWxsfSx7InR5cGUiOiJjb2x1bW4iLCJuYW1lIjoicGhvbmUiLCJsYWJlbCI6IlBob25lIiwiaXNIaWRkZW4iOmZhbHNlLCJpc1RvZ2dsZWQiOnRydWUsImlzVG9nZ2xlYWJsZSI6ZmFsc2UsImlzVG9nZ2xlZEhpZGRlbkJ5RGVmYXVsdCI6bnVsbH0seyJ0eXBlIjoiY29sdW1uIiwibmFtZSI6ImNyZWF0ZWRfYXQiLCJsYWJlbCI6IkNyZWF0ZWQgYXQiLCJpc0hpZGRlbiI6ZmFsc2UsImlzVG9nZ2xlZCI6ZmFsc2UsImlzVG9nZ2xlYWJsZSI6dHJ1ZSwiaXNUb2dnbGVkSGlkZGVuQnlEZWZhdWx0Ijp0cnVlfSx7InR5cGUiOiJjb2x1bW4iLCJuYW1lIjoidXBkYXRlZF9hdCIsImxhYmVsIjoiVXBkYXRlZCBhdCIsImlzSGlkZGVuIjpmYWxzZSwiaXNUb2dnbGVkIjpmYWxzZSwiaXNUb2dnbGVhYmxlIjp0cnVlLCJpc1RvZ2dsZWRIaWRkZW5CeURlZmF1bHQiOnRydWV9XSwiZTY0NDgzM2Y0ZTRlMDg3MTIzMTVkYTcxYjMzZmFjZDJfY29sdW1ucyI6W3sidHlwZSI6ImNvbHVtbiIsIm5hbWUiOiJuYW1lIiwibGFiZWwiOiJOYW1lIiwiaXNIaWRkZW4iOmZhbHNlLCJpc1RvZ2dsZWQiOnRydWUsImlzVG9nZ2xlYWJsZSI6ZmFsc2UsImlzVG9nZ2xlZEhpZGRlbkJ5RGVmYXVsdCI6bnVsbH0seyJ0eXBlIjoiY29sdW1uIiwibmFtZSI6ImVtYWlsIiwibGFiZWwiOiJFbWFpbCBhZGRyZXNzIiwiaXNIaWRkZW4iOmZhbHNlLCJpc1RvZ2dsZWQiOnRydWUsImlzVG9nZ2xlYWJsZSI6ZmFsc2UsImlzVG9nZ2xlZEhpZGRlbkJ5RGVmYXVsdCI6bnVsbH0seyJ0eXBlIjoiY29sdW1uIiwibmFtZSI6InJvbGVzLm5hbWUiLCJsYWJlbCI6IlJvbGUiLCJpc0hpZGRlbiI6ZmFsc2UsImlzVG9nZ2xlZCI6dHJ1ZSwiaXNUb2dnbGVhYmxlIjpmYWxzZSwiaXNUb2dnbGVkSGlkZGVuQnlEZWZhdWx0IjpudWxsfSx7InR5cGUiOiJjb2x1bW4iLCJuYW1lIjoiZW1haWxfdmVyaWZpZWRfYXQiLCJsYWJlbCI6IkVtYWlsIHZlcmlmaWVkIGF0IiwiaXNIaWRkZW4iOmZhbHNlLCJpc1RvZ2dsZWQiOnRydWUsImlzVG9nZ2xlYWJsZSI6ZmFsc2UsImlzVG9nZ2xlZEhpZGRlbkJ5RGVmYXVsdCI6bnVsbH0seyJ0eXBlIjoiY29sdW1uIiwibmFtZSI6ImNyZWF0ZWRfYXQiLCJsYWJlbCI6IkNyZWF0ZWQgYXQiLCJpc0hpZGRlbiI6ZmFsc2UsImlzVG9nZ2xlZCI6ZmFsc2UsImlzVG9nZ2xlYWJsZSI6dHJ1ZSwiaXNUb2dnbGVkSGlkZGVuQnlEZWZhdWx0Ijp0cnVlfSx7InR5cGUiOiJjb2x1bW4iLCJuYW1lIjoidXBkYXRlZF9hdCIsImxhYmVsIjoiVXBkYXRlZCBhdCIsImlzSGlkZGVuIjpmYWxzZSwiaXNUb2dnbGVkIjpmYWxzZSwiaXNUb2dnbGVhYmxlIjp0cnVlLCJpc1RvZ2dsZWRIaWRkZW5CeURlZmF1bHQiOnRydWV9LHsidHlwZSI6ImNvbHVtbiIsIm5hbWUiOiJnb3Zlcm5vcmF0ZS5uYW1lIiwibGFiZWwiOiJHb3Zlcm5vcmF0ZSIsImlzSGlkZGVuIjpmYWxzZSwiaXNUb2dnbGVkIjp0cnVlLCJpc1RvZ2dsZWFibGUiOmZhbHNlLCJpc1RvZ2dsZWRIaWRkZW5CeURlZmF1bHQiOm51bGx9LHsidHlwZSI6ImNvbHVtbiIsIm5hbWUiOiJjaXR5IiwibGFiZWwiOiJDaXR5IiwiaXNIaWRkZW4iOmZhbHNlLCJpc1RvZ2dsZWQiOnRydWUsImlzVG9nZ2xlYWJsZSI6ZmFsc2UsImlzVG9nZ2xlZEhpZGRlbkJ5RGVmYXVsdCI6bnVsbH1dLCJlNzkzYTI3OWQ1NmU0NTA2MDk3NTQwMjBkNjI3YmVlY19jb2x1bW5zIjpbeyJ0eXBlIjoiY29sdW1uIiwibmFtZSI6Im1lcmNoYW50Lm5hbWUiLCJsYWJlbCI6Ik1lcmNoYW50IiwiaXNIaWRkZW4iOmZhbHNlLCJpc1RvZ2dsZWQiOnRydWUsImlzVG9nZ2xlYWJsZSI6ZmFsc2UsImlzVG9nZ2xlZEhpZGRlbkJ5RGVmYXVsdCI6bnVsbH0seyJ0eXBlIjoiY29sdW1uIiwibmFtZSI6ImN1c3RvbWVyX25hbWUiLCJsYWJlbCI6IkN1c3RvbWVyIG5hbWUiLCJpc0hpZGRlbiI6ZmFsc2UsImlzVG9nZ2xlZCI6dHJ1ZSwiaXNUb2dnbGVhYmxlIjpmYWxzZSwiaXNUb2dnbGVkSGlkZGVuQnlEZWZhdWx0IjpudWxsfSx7InR5cGUiOiJjb2x1bW4iLCJuYW1lIjoiY3VzdG9tZXJfcGhvbmUiLCJsYWJlbCI6IkN1c3RvbWVyIHBob25lIiwiaXNIaWRkZW4iOmZhbHNlLCJpc1RvZ2dsZWQiOnRydWUsImlzVG9nZ2xlYWJsZSI6ZmFsc2UsImlzVG9nZ2xlZEhpZGRlbkJ5RGVmYXVsdCI6bnVsbH0seyJ0eXBlIjoiY29sdW1uIiwibmFtZSI6ImdvdmVybm9yYXRlLm5hbWUiLCJsYWJlbCI6IkdvdmVybm9yYXRlIiwiaXNIaWRkZW4iOmZhbHNlLCJpc1RvZ2dsZWQiOnRydWUsImlzVG9nZ2xlYWJsZSI6ZmFsc2UsImlzVG9nZ2xlZEhpZGRlbkJ5RGVmYXVsdCI6bnVsbH0seyJ0eXBlIjoiY29sdW1uIiwibmFtZSI6ImNpdHkiLCJsYWJlbCI6IkNpdHkiLCJpc0hpZGRlbiI6ZmFsc2UsImlzVG9nZ2xlZCI6dHJ1ZSwiaXNUb2dnbGVhYmxlIjpmYWxzZSwiaXNUb2dnbGVkSGlkZGVuQnlEZWZhdWx0IjpudWxsfSx7InR5cGUiOiJjb2x1bW4iLCJuYW1lIjoic3RhdHVzLm5hbWUiLCJsYWJlbCI6IlN0YXR1cyIsImlzSGlkZGVuIjpmYWxzZSwiaXNUb2dnbGVkIjp0cnVlLCJpc1RvZ2dsZWFibGUiOmZhbHNlLCJpc1RvZ2dsZWRIaWRkZW5CeURlZmF1bHQiOm51bGx9LHsidHlwZSI6ImNvbHVtbiIsIm5hbWUiOiJ0b3RhbF9wcmljZSIsImxhYmVsIjoiVG90YWwgcHJpY2UiLCJpc0hpZGRlbiI6ZmFsc2UsImlzVG9nZ2xlZCI6dHJ1ZSwiaXNUb2dnbGVhYmxlIjpmYWxzZSwiaXNUb2dnbGVkSGlkZGVuQnlEZWZhdWx0IjpudWxsfSx7InR5cGUiOiJjb2x1bW4iLCJuYW1lIjoid2VpZ2h0IiwibGFiZWwiOiJXZWlnaHQiLCJpc0hpZGRlbiI6ZmFsc2UsImlzVG9nZ2xlZCI6dHJ1ZSwiaXNUb2dnbGVhYmxlIjpmYWxzZSwiaXNUb2dnbGVkSGlkZGVuQnlEZWZhdWx0IjpudWxsfSx7InR5cGUiOiJjb2x1bW4iLCJuYW1lIjoiY3JlYXRlZF9hdCIsImxhYmVsIjoiQ3JlYXRlZCBhdCIsImlzSGlkZGVuIjpmYWxzZSwiaXNUb2dnbGVkIjpmYWxzZSwiaXNUb2dnbGVhYmxlIjp0cnVlLCJpc1RvZ2dsZWRIaWRkZW5CeURlZmF1bHQiOnRydWV9LHsidHlwZSI6ImNvbHVtbiIsIm5hbWUiOiJ1cGRhdGVkX2F0IiwibGFiZWwiOiJVcGRhdGVkIGF0IiwiaXNIaWRkZW4iOmZhbHNlLCJpc1RvZ2dsZWQiOmZhbHNlLCJpc1RvZ2dsZWFibGUiOnRydWUsImlzVG9nZ2xlZEhpZGRlbkJ5RGVmYXVsdCI6dHJ1ZX1dLCI0OGZkZTBiNjcyZDU3ZjE0ZDY2NTNlNmZkYTU0ZGFlYV9jb2x1bW5zIjpbeyJ0eXBlIjoiY29sdW1uIiwibmFtZSI6Im5hbWUiLCJsYWJlbCI6Ik5hbWUiLCJpc0hpZGRlbiI6ZmFsc2UsImlzVG9nZ2xlZCI6dHJ1ZSwiaXNUb2dnbGVhYmxlIjpmYWxzZSwiaXNUb2dnbGVkSGlkZGVuQnlEZWZhdWx0IjpudWxsfSx7InR5cGUiOiJjb2x1bW4iLCJuYW1lIjoiY3JlYXRlZF9hdCIsImxhYmVsIjoiQ3JlYXRlZCBhdCIsImlzSGlkZGVuIjpmYWxzZSwiaXNUb2dnbGVkIjpmYWxzZSwiaXNUb2dnbGVhYmxlIjp0cnVlLCJpc1RvZ2dsZWRIaWRkZW5CeURlZmF1bHQiOnRydWV9LHsidHlwZSI6ImNvbHVtbiIsIm5hbWUiOiJ1cGRhdGVkX2F0IiwibGFiZWwiOiJVcGRhdGVkIGF0IiwiaXNIaWRkZW4iOmZhbHNlLCJpc1RvZ2dsZWQiOmZhbHNlLCJpc1RvZ2dsZWFibGUiOnRydWUsImlzVG9nZ2xlZEhpZGRlbkJ5RGVmYXVsdCI6dHJ1ZX1dfSwiZmlsYW1lbnQiOltdfQ==', 1782758400);
+('F306oq6TbyyWDu7aBhdaq31bPClcWy9kDpkWPWpN', 3, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36', 'eyJfdG9rZW4iOiJKUjkzVnBJWFFnSFdmbmlCendJZzdJQVhUY2hhbnBSdEF3UXg2Q2d1IiwiX2ZsYXNoIjp7Im9sZCI6W10sIm5ldyI6W119LCJfcHJldmlvdXMiOnsidXJsIjoiaHR0cDpcL1wvMTI3LjAuMC4xOjgwMDBcL2FkbWluIiwicm91dGUiOiJmaWxhbWVudC5hZG1pbi5wYWdlcy5kYXNoYm9hcmQifSwidXJsIjpbXSwibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiOjMsInBhc3N3b3JkX2hhc2hfd2ViIjoiMTFkYzQ1Mjg5ZWI4ZjMyYjBjOTMwZGEzMjVlZTI5YjEzMWNmNTlkOTFjOTg4MTk1YWUzZWMwOWIyODIyMjc5YSIsInRhYmxlcyI6eyJlNzkzYTI3OWQ1NmU0NTA2MDk3NTQwMjBkNjI3YmVlY19jb2x1bW5zIjpbeyJ0eXBlIjoiY29sdW1uIiwibmFtZSI6Im1lcmNoYW50Lm5hbWUiLCJsYWJlbCI6Ik1lcmNoYW50IiwiaXNIaWRkZW4iOmZhbHNlLCJpc1RvZ2dsZWQiOnRydWUsImlzVG9nZ2xlYWJsZSI6ZmFsc2UsImlzVG9nZ2xlZEhpZGRlbkJ5RGVmYXVsdCI6bnVsbH0seyJ0eXBlIjoiY29sdW1uIiwibmFtZSI6ImRyaXZlci5uYW1lIiwibGFiZWwiOiJEcml2ZXIiLCJpc0hpZGRlbiI6ZmFsc2UsImlzVG9nZ2xlZCI6dHJ1ZSwiaXNUb2dnbGVhYmxlIjpmYWxzZSwiaXNUb2dnbGVkSGlkZGVuQnlEZWZhdWx0IjpudWxsfSx7InR5cGUiOiJjb2x1bW4iLCJuYW1lIjoiY3VzdG9tZXJfbmFtZSIsImxhYmVsIjoiQ3VzdG9tZXIgbmFtZSIsImlzSGlkZGVuIjpmYWxzZSwiaXNUb2dnbGVkIjp0cnVlLCJpc1RvZ2dsZWFibGUiOmZhbHNlLCJpc1RvZ2dsZWRIaWRkZW5CeURlZmF1bHQiOm51bGx9LHsidHlwZSI6ImNvbHVtbiIsIm5hbWUiOiJjdXN0b21lcl9waG9uZSIsImxhYmVsIjoiQ3VzdG9tZXIgcGhvbmUiLCJpc0hpZGRlbiI6ZmFsc2UsImlzVG9nZ2xlZCI6dHJ1ZSwiaXNUb2dnbGVhYmxlIjpmYWxzZSwiaXNUb2dnbGVkSGlkZGVuQnlEZWZhdWx0IjpudWxsfSx7InR5cGUiOiJjb2x1bW4iLCJuYW1lIjoiZ292ZXJub3JhdGUubmFtZSIsImxhYmVsIjoiR292ZXJub3JhdGUiLCJpc0hpZGRlbiI6ZmFsc2UsImlzVG9nZ2xlZCI6dHJ1ZSwiaXNUb2dnbGVhYmxlIjpmYWxzZSwiaXNUb2dnbGVkSGlkZGVuQnlEZWZhdWx0IjpudWxsfSx7InR5cGUiOiJjb2x1bW4iLCJuYW1lIjoiY2l0eSIsImxhYmVsIjoiQ2l0eSIsImlzSGlkZGVuIjpmYWxzZSwiaXNUb2dnbGVkIjp0cnVlLCJpc1RvZ2dsZWFibGUiOmZhbHNlLCJpc1RvZ2dsZWRIaWRkZW5CeURlZmF1bHQiOm51bGx9LHsidHlwZSI6ImNvbHVtbiIsIm5hbWUiOiJzdGF0dXMubmFtZSIsImxhYmVsIjoiU3RhdHVzIiwiaXNIaWRkZW4iOmZhbHNlLCJpc1RvZ2dsZWQiOnRydWUsImlzVG9nZ2xlYWJsZSI6ZmFsc2UsImlzVG9nZ2xlZEhpZGRlbkJ5RGVmYXVsdCI6bnVsbH0seyJ0eXBlIjoiY29sdW1uIiwibmFtZSI6InRvdGFsX3ByaWNlIiwibGFiZWwiOiJUb3RhbCBwcmljZSIsImlzSGlkZGVuIjpmYWxzZSwiaXNUb2dnbGVkIjp0cnVlLCJpc1RvZ2dsZWFibGUiOmZhbHNlLCJpc1RvZ2dsZWRIaWRkZW5CeURlZmF1bHQiOm51bGx9LHsidHlwZSI6ImNvbHVtbiIsIm5hbWUiOiJ3ZWlnaHQiLCJsYWJlbCI6IldlaWdodCIsImlzSGlkZGVuIjpmYWxzZSwiaXNUb2dnbGVkIjp0cnVlLCJpc1RvZ2dsZWFibGUiOmZhbHNlLCJpc1RvZ2dsZWRIaWRkZW5CeURlZmF1bHQiOm51bGx9LHsidHlwZSI6ImNvbHVtbiIsIm5hbWUiOiJjcmVhdGVkX2F0IiwibGFiZWwiOiJDcmVhdGVkIGF0IiwiaXNIaWRkZW4iOmZhbHNlLCJpc1RvZ2dsZWQiOmZhbHNlLCJpc1RvZ2dsZWFibGUiOnRydWUsImlzVG9nZ2xlZEhpZGRlbkJ5RGVmYXVsdCI6dHJ1ZX0seyJ0eXBlIjoiY29sdW1uIiwibmFtZSI6InVwZGF0ZWRfYXQiLCJsYWJlbCI6IlVwZGF0ZWQgYXQiLCJpc0hpZGRlbiI6ZmFsc2UsImlzVG9nZ2xlZCI6ZmFsc2UsImlzVG9nZ2xlYWJsZSI6dHJ1ZSwiaXNUb2dnbGVkSGlkZGVuQnlEZWZhdWx0Ijp0cnVlfV0sImU2NDQ4MzNmNGU0ZTA4NzEyMzE1ZGE3MWIzM2ZhY2QyX2NvbHVtbnMiOlt7InR5cGUiOiJjb2x1bW4iLCJuYW1lIjoibmFtZSIsImxhYmVsIjoiTmFtZSIsImlzSGlkZGVuIjpmYWxzZSwiaXNUb2dnbGVkIjp0cnVlLCJpc1RvZ2dsZWFibGUiOmZhbHNlLCJpc1RvZ2dsZWRIaWRkZW5CeURlZmF1bHQiOm51bGx9LHsidHlwZSI6ImNvbHVtbiIsIm5hbWUiOiJlbWFpbCIsImxhYmVsIjoiRW1haWwgYWRkcmVzcyIsImlzSGlkZGVuIjpmYWxzZSwiaXNUb2dnbGVkIjp0cnVlLCJpc1RvZ2dsZWFibGUiOmZhbHNlLCJpc1RvZ2dsZWRIaWRkZW5CeURlZmF1bHQiOm51bGx9LHsidHlwZSI6ImNvbHVtbiIsIm5hbWUiOiJyb2xlcy5uYW1lIiwibGFiZWwiOiJSb2xlIiwiaXNIaWRkZW4iOmZhbHNlLCJpc1RvZ2dsZWQiOnRydWUsImlzVG9nZ2xlYWJsZSI6ZmFsc2UsImlzVG9nZ2xlZEhpZGRlbkJ5RGVmYXVsdCI6bnVsbH0seyJ0eXBlIjoiY29sdW1uIiwibmFtZSI6ImNyZWF0ZWRfYXQiLCJsYWJlbCI6IkNyZWF0ZWQgYXQiLCJpc0hpZGRlbiI6ZmFsc2UsImlzVG9nZ2xlZCI6ZmFsc2UsImlzVG9nZ2xlYWJsZSI6dHJ1ZSwiaXNUb2dnbGVkSGlkZGVuQnlEZWZhdWx0Ijp0cnVlfSx7InR5cGUiOiJjb2x1bW4iLCJuYW1lIjoidXBkYXRlZF9hdCIsImxhYmVsIjoiVXBkYXRlZCBhdCIsImlzSGlkZGVuIjpmYWxzZSwiaXNUb2dnbGVkIjpmYWxzZSwiaXNUb2dnbGVhYmxlIjp0cnVlLCJpc1RvZ2dsZWRIaWRkZW5CeURlZmF1bHQiOnRydWV9LHsidHlwZSI6ImNvbHVtbiIsIm5hbWUiOiJnb3Zlcm5vcmF0ZS5uYW1lIiwibGFiZWwiOiJHb3Zlcm5vcmF0ZSIsImlzSGlkZGVuIjpmYWxzZSwiaXNUb2dnbGVkIjp0cnVlLCJpc1RvZ2dsZWFibGUiOmZhbHNlLCJpc1RvZ2dsZWRIaWRkZW5CeURlZmF1bHQiOm51bGx9LHsidHlwZSI6ImNvbHVtbiIsIm5hbWUiOiJjaXR5IiwibGFiZWwiOiJDaXR5IiwiaXNIaWRkZW4iOmZhbHNlLCJpc1RvZ2dsZWQiOnRydWUsImlzVG9nZ2xlYWJsZSI6ZmFsc2UsImlzVG9nZ2xlZEhpZGRlbkJ5RGVmYXVsdCI6bnVsbH1dLCJhOWY3MzA4M2U1ZmQxNGYwNmU3ZmZkNGI0YzQ4ZTllZV9jb2x1bW5zIjpbeyJ0eXBlIjoiY29sdW1uIiwibmFtZSI6Im5hbWUiLCJsYWJlbCI6Ik5hbWUiLCJpc0hpZGRlbiI6ZmFsc2UsImlzVG9nZ2xlZCI6dHJ1ZSwiaXNUb2dnbGVhYmxlIjpmYWxzZSwiaXNUb2dnbGVkSGlkZGVuQnlEZWZhdWx0IjpudWxsfSx7InR5cGUiOiJjb2x1bW4iLCJuYW1lIjoiY3JlYXRlZF9hdCIsImxhYmVsIjoiQ3JlYXRlZCBhdCIsImlzSGlkZGVuIjpmYWxzZSwiaXNUb2dnbGVkIjpmYWxzZSwiaXNUb2dnbGVhYmxlIjp0cnVlLCJpc1RvZ2dsZWRIaWRkZW5CeURlZmF1bHQiOnRydWV9LHsidHlwZSI6ImNvbHVtbiIsIm5hbWUiOiJ1cGRhdGVkX2F0IiwibGFiZWwiOiJVcGRhdGVkIGF0IiwiaXNIaWRkZW4iOmZhbHNlLCJpc1RvZ2dsZWQiOmZhbHNlLCJpc1RvZ2dsZWFibGUiOnRydWUsImlzVG9nZ2xlZEhpZGRlbkJ5RGVmYXVsdCI6dHJ1ZX1dfSwiZmlsYW1lbnQiOltdfQ==', 1782789910),
+('I16CK5XakpdOwpB0jZyenyJVEdEjSFCziVdCoqji', 17, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36', 'eyJfdG9rZW4iOiIySDVZRjlEMUxhcmlFZDJFUzd5SmpxekNSMG9TdHZWTFdoMHhycnkzIiwiX3ByZXZpb3VzIjp7InVybCI6Imh0dHA6XC9cLzEyNy4wLjAuMTo4MDAwXC9kcml2ZXJcL3JldHVybmVkLW9yZGVycyIsInJvdXRlIjoiZHJpdmVyLnJldHVybmVkLW9yZGVycyJ9LCJfZmxhc2giOnsib2xkIjpbXSwibmV3IjpbXX0sImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjoxN30=', 1782787839);
 
 -- --------------------------------------------------------
 
@@ -447,7 +454,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`, `city`, `governorate_id`) VALUES
-(3, 'System Admin', 'admin@deliveryhub.com', '2026-06-24 15:59:27', '$2y$12$IO16M6IxkLN/3N2XTgRL2ewNK9bNrF.VXc5.3nc9Urw2h.bEkX2OC', 'fsDivOMVzu9C83jP5UIYR233bIZuCmn7f8xRKIBjbxqV76nD08Ow9VUIn0hm', '2026-06-24 15:59:27', '2026-06-24 15:59:27', NULL, NULL),
+(3, 'System Admin', 'admin@deliveryhub.com', '2026-06-24 15:59:27', '$2y$12$IO16M6IxkLN/3N2XTgRL2ewNK9bNrF.VXc5.3nc9Urw2h.bEkX2OC', 'kK0wZAYXZG8YwFaB5Vou3xZdgSfcB2TAyRHinq2JBqyIKYE4knSnXhk9DkYC', '2026-06-24 15:59:27', '2026-06-24 15:59:27', NULL, NULL),
 (4, 'Employee Account', 'employee@deliveryhub.com', '2026-06-24 15:59:27', '$2y$12$794MK6Qs6NdvMzV8vijPlOcEI4yiIyXKmlMQbLryn7.5nfxmMQGiq', 'mrwZhnrs4M', '2026-06-24 15:59:27', '2026-06-24 15:59:27', NULL, NULL),
 (5, 'Merchant Shop', 'merchant@deliveryhub.com', '2026-06-24 15:59:27', '$2y$12$SfmixETQ1F5W5UjAYfDSZ.5U4K2zFzZcwCC/fiWNcpXIcvi6x1NsW', 'baHxgfNGnO', '2026-06-24 15:59:27', '2026-06-24 15:59:27', NULL, NULL),
 (6, 'Captain Driver', 'driver@deliveryhub.com', '2026-06-24 15:59:28', '$2y$12$ZCpu.fPBVUMUEeYeHfE2F.KXlNibviljBfzrsW.WEcc53gGxgUjt6', 'kX2Vyuafez', '2026-06-24 15:59:28', '2026-06-24 15:59:28', NULL, NULL),
@@ -458,7 +465,8 @@ INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `re
 (12, 'laksdd', 'mo51@gmail.com', NULL, '$2y$12$7aaoTEB28csn9OArYRcM6OX3KGbMoZS7rM72QpgFl9s9CsANhuNAa', NULL, '2026-06-25 16:08:38', '2026-06-25 16:08:38', NULL, NULL),
 (14, 'Malak Omar', 'malaktalatomar1@gmail.com', NULL, '$2y$12$qDK311x11mLH0pWdMnHhtOc/snxxd45JmP2IAlhPvkIsze7pTz9.y', NULL, '2026-06-25 17:34:42', '2026-06-25 17:34:42', NULL, NULL),
 (15, 'mnsjd', 'dhgsg@gmail.com', NULL, '$2y$12$eBNkaeofI2AIFWVTKsicPuqe5Hc2VdT7tVvv9ZeoGDFJZXu5HTemi', NULL, '2026-06-28 16:22:19', '2026-06-28 16:22:19', NULL, NULL),
-(16, 'hcsdg', 'xsHV@SHG', NULL, '$2y$12$EeeiVGR0OxyHaBnoxwgT/O3ypN/X8qhqALa0uFIAtWnVL.LX/oqh2', NULL, '2026-06-29 13:31:49', '2026-06-29 13:40:23', 'DEE', 15);
+(16, 'hcsdg', 'xsHV@SHG', NULL, '$2y$12$EeeiVGR0OxyHaBnoxwgT/O3ypN/X8qhqALa0uFIAtWnVL.LX/oqh2', NULL, '2026-06-29 13:31:49', '2026-06-29 13:40:23', 'DEE', 15),
+(17, 'نستعياعث', 'fhddnd@hsgd.com', NULL, '$2y$12$vvXvSMitYOT39oYMYOEdiOb/g2v95XJoFEEWqQPvu6gVGOOlE.8Ke', NULL, '2026-06-29 20:31:51', '2026-06-29 20:31:51', 'chd', 3);
 
 --
 -- Indexes for dumped tables
@@ -545,7 +553,8 @@ ALTER TABLE `orders`
   ADD PRIMARY KEY (`id`),
   ADD KEY `merchant_id` (`merchant_id`),
   ADD KEY `governorate_id` (`governorate_id`),
-  ADD KEY `status_id` (`status_id`);
+  ADD KEY `status_id` (`status_id`),
+  ADD KEY `orders_driver_id_foreign` (`driver_id`);
 
 --
 -- Indexes for table `order_status_logs`
@@ -657,7 +666,7 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `order_status_logs`
@@ -693,7 +702,7 @@ ALTER TABLE `statuses`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- Constraints for dumped tables
@@ -721,6 +730,7 @@ ALTER TABLE `model_has_roles`
 -- Constraints for table `orders`
 --
 ALTER TABLE `orders`
+  ADD CONSTRAINT `orders_driver_id_foreign` FOREIGN KEY (`driver_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
   ADD CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`merchant_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `orders_ibfk_2` FOREIGN KEY (`governorate_id`) REFERENCES `governorates` (`id`),
   ADD CONSTRAINT `orders_ibfk_4` FOREIGN KEY (`status_id`) REFERENCES `statuses` (`id`);

@@ -10,7 +10,15 @@ Route::get('/', function () {
 // مسارات محمية بتسجيل الدخول
 Route::middleware(['auth', 'verified'])->group(function () {
 
+    Route::middleware(['auth', 'role:admin'])
+    ->prefix('admin')
+    ->group(function () {
 
+        Route::get('/dashboard', function () {
+            return view('admin.dashboard');
+        })->name('admin.dashboard');
+
+    });
 
     // 2. مسارات التاجر
     Route::middleware(['role:merchant'])->prefix('merchant')->group(function () {

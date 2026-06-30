@@ -11,18 +11,17 @@ class OrderInfolist
     {
         return $schema
             ->components([
-                TextEntry::make('merchant_id')
-                    ->numeric(),
+                TextEntry::make('merchant.name')
+                    ->label('Merchant'),
                 TextEntry::make('customer_name'),
                 TextEntry::make('customer_phone'),
                 TextEntry::make('address')
                     ->columnSpanFull(),
-                TextEntry::make('governorate_id')
-                    ->numeric(),
-                TextEntry::make('city_id')
-                    ->numeric(),
-                TextEntry::make('status_id')
-                    ->numeric(),
+                TextEntry::make('governorate.name')
+                    ->label('Governorate'),
+            
+                TextEntry::make('status.name')
+                    ->label('Status'),
                 TextEntry::make('total_price')
                     ->money()
                     ->placeholder('-'),

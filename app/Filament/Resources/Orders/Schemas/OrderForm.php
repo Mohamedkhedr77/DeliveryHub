@@ -61,7 +61,9 @@ class OrderForm
                     ->preload(),
                 Select::make('status_id')
                     ->relationship('status', 'name')
-                    ->required(),
+                    ->required()
+                    ->hiddenOn('create')
+                    ->visibleOn('edit'),
                 TextInput::make('order_value')
                     ->label('قيمة الأوردر')
                     ->numeric()
