@@ -13,9 +13,14 @@ new #[Layout('layouts.guest')] class extends Component
      */
     public function sendVerification(): void
     {
-        if (Auth::user()->hasVerifiedEmail()) {
-            $this->redirectIntended(default: route('dashboard', absolute: false), navigate: true);
-
+        $user = Auth::user();
+        if ($user->hasVerifiedEmail()) {
+            
+            if ($user->hasRole('admin')) $this->redirect('/admin');
+            elseif ($user->hasRole('merchant')) $this->redirect('/merchant');
+            elseif ($user->hasRole('employee')) $this->redirect('/employee');
+            elseif ($user->hasRole('driver')) $this->redirect('/driver');
+            else $this->redirect('/');
             return;
         }
 
@@ -31,7 +36,7 @@ new #[Layout('layouts.guest')] class extends Component
     {
         $logout();
 
-        $this->redirect('/', navigate: true);
+        $this->redirect('/');
     }
 }; ?>
 
@@ -54,5 +59,5 @@ new #[Layout('layouts.guest')] class extends Component
         <button wire:click="logout" type="submit" class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800">
             {{ __('Log Out') }}
         </button>
-    </div>
+    }
 </div>

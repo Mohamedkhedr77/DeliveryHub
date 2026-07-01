@@ -1,0 +1,61 @@
+/* 1. الخلفية العامة المستقرة للوحة */
+body.fi-body {
+    background: radial-gradient(circle at center, #140d24 0%, #090615 70%, #030207 100%) !important;
+    min-height: 100vh;
+}
+
+/* 2. تطبيق النيون المتحرك بحذر وفقط على الكروت الرئيسية والجداول بدون عناصر السيستم الحساسة */
+.fi-wi-widget, 
+.fi-ta-ctn, 
+.fi-section {
+    position: relative !important;
+    background-color: #090615 !important;
+    border: none !important;
+    border-radius: 15px !important;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6) !important;
+    overflow: hidden !important;
+    padding: 2px !important;
+}
+
+/* 3. أنيميشن الألوان الأربعة بيلف بأمان */
+.fi-wi-widget::before, 
+.fi-ta-ctn::before, 
+.fi-section::before {
+    content: '' !important;
+    position: absolute !important;
+    top: -50% !important;
+    left: -50% !important;
+    width: 200% !important;
+    height: 200% !important;
+    background: conic-gradient(
+        #06b6d4 0%,    /* سماوي */
+        #8b5cf6 25%,   /* بنفسجي */
+        #d946ef 50%,   /* ماجنتا */
+        #facc15 75%,   /* ذهبي */
+        #06b6d4 100%
+    ) !important;
+    animation: rotateGlow 6s linear infinite !important;
+    z-index: 0 !important;
+}
+
+/* 4. حماية المحتوى الداخلي للكروت والجداول */
+.fi-wi-widget > *, 
+.fi-ta-ctn > *, 
+.fi-section > * {
+    position: relative !important;
+    z-index: 1 !important;
+    background-color: #090615 !important;
+    border-radius: 13px !important;
+}
+
+@keyframes rotateGlow {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* 5. تنسيق هيدر الجداول */
+.fi-ta-header-cell {
+    background-color: rgba(15, 10, 31, 0.8) !important;
+    color: #c084fc !important;
+    font-weight: 600 !important;
+}

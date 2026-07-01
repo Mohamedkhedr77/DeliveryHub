@@ -19,14 +19,19 @@ class User extends Authenticatable implements FilamentUser
     /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable, HasRoles;
 
-    /**
-     * التحكم في مين يقدر يدخل لوحة تحكم Filament
-     */
-    public function canAccessPanel(Panel $panel): bool
-    {
-       
-        return $this->hasRole('admin') || $this->hasRole('employee');
-    }
+        
+   public function canAccessPanel(Panel $panel): bool
+{
+    $panelId = $panel->getId();
+
+    return match($panelId) {
+        'admin'    => $this->hasRole('admin'),
+        'merchant' => $this->hasRole('merchant'),
+        'employee' => $this->hasRole('employee') || $this->hasRole('admin'), // اتأكد من السطر ده
+        'driver'   => $this->hasRole('driver'),
+        default    => false,
+    };
+}
 
     /**
      * Get the attributes that should be cast.

@@ -3,23 +3,20 @@
 namespace Database\Seeders;
 
 use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role; 
 
 class DatabaseSeeder extends Seeder
 {
-    use WithoutModelEvents;
-
     /**
      * Seed the application's database.
      */
     public function run(): void
     {
-        $adminRole    = Role::create(['name' => 'admin']);
-        $merchantRole = Role::create(['name' => 'merchant']); 
-        $employeeRole = Role::create(['name' => 'employee']); 
-        $driverRole   = Role::create(['name' => 'driver']);   
+        $adminRole    = Role::firstOrCreate(['name' => 'admin']);
+        $merchantRole = Role::firstOrCreate(['name' => 'merchant']); 
+        $employeeRole = Role::firstOrCreate(['name' => 'employee']); 
+        $driverRole   = Role::firstOrCreate(['name' => 'driver']);   
 
         $adminUser = User::factory()->create([
             'name' => 'System Admin',
@@ -34,7 +31,6 @@ class DatabaseSeeder extends Seeder
             'password' => bcrypt('password'),
         ]);
         $employeeUser->assignRole($employeeRole);
-
       
         $merchantUser = User::factory()->create([
             'name' => 'Merchant Shop',

@@ -5,11 +5,27 @@ use Livewire\Volt\Component;
 
 new class extends Component
 {
+    /**
+     */
     public function logout(Logout $logout): void
     {
         $logout();
 
         $this->redirect('/', navigate: true);
+    }
+
+    /**
+     */
+    public function getDashboardRoute(): string
+    {
+        $user = auth()->user();
+
+        if ($user->hasRole('admin')) return '/admin';
+        if ($user->hasRole('merchant')) return '/merchant';
+        if ($user->hasRole('employee')) return '/employee';
+        if ($user->hasRole('driver')) return '/driver';
+
+        return '/';
     }
 };
 
@@ -24,7 +40,7 @@ new class extends Component
 
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
-                    <a href="{{ route('driver.dashboard') }}">
+                    <a href="{{ $this->getDashboardRoute() }}">
                         <x-application-logo
                             class="block h-9 w-auto fill-current text-gray-800" />
                     </a>
@@ -33,35 +49,45 @@ new class extends Component
                 <!-- Navigation -->
                 <div class="hidden sm:flex sm:items-center sm:ms-10 space-x-6">
 
-                    <x-nav-link
-                        :href="route('driver.dashboard')"
-                        :active="request()->routeIs('driver.dashboard')">
-                        Dashboard
-                    </x-nav-link>
+                    {{-- روابط السائق تظهر فقط لمن يملك دور driver --}}
+                    @if(auth()->user()->hasRole('driver'))
+                        <x-nav-link
+                            :href="'/driver'"
+                            :active="request()->is('driver')">
+                            Dashboard
+                        </x-nav-link>
 
-                    <x-nav-link
-                        :href="route('driver.new-orders')"
-                        :active="request()->routeIs('driver.new-orders')">
-                        أوردرات جديدة
-                    </x-nav-link>
+                        <x-nav-link
+                            :href="'/driver/new-orders'"
+                            :active="request()->is('driver/new-orders*')">
+                            أوردرات جديدة
+                        </x-nav-link>
 
-                    <x-nav-link
-                        :href="route('driver.my-orders')"
-                        :active="request()->routeIs('driver.my-orders')">
-                        أوردراتي
-                    </x-nav-link>
+                        <x-nav-link
+                            :href="'/driver/my-orders'"
+                            :active="request()->is('driver/my-orders*')">
+                            أوردراتي
+                        </x-nav-link>
 
-                    <x-nav-link
-                        :href="route('driver.delivered-orders')"
-                        :active="request()->routeIs('driver.delivered-orders')">
-                        تم تسليمها
-                    </x-nav-link>
+                        <x-nav-link
+                            :href="'/driver/delivered-orders'"
+                            :active="request()->is('driver/delivered-orders*')">
+                            تم تسليمها
+                        </x-nav-link>
 
-                    <x-nav-link
-                        :href="route('driver.returned-orders')"
-                        :active="request()->routeIs('driver.returned-orders')">
-                        المرتجع
-                    </x-nav-link>
+                        <x-nav-link
+                            :href="'/driver/returned-orders'"
+                            :active="request()->is('driver/returned-orders*')">
+                            المرتجع
+                        </x-nav-link>
+                    @endif
+
+                    {{-- يمكنك إضافة روابط للأدوار الأخرى هنا بنفس الطريقة --}}
+                    @if(auth()->user()->hasRole('admin'))
+                         <x-nav-link :href="'/admin'" :active="request()->is('admin*')">
+                            Admin Panel
+                        </x-nav-link>
+                    @endif
 
                 </div>
 

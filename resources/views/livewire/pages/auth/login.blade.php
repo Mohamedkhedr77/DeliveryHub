@@ -1,5 +1,5 @@
-
 <?php
+
 use App\Livewire\Forms\LoginForm;
 use Illuminate\Support\Facades\Session;
 use Livewire\Attributes\Layout;
@@ -15,25 +15,23 @@ new #[Layout('layouts.guest')] class extends Component
     public function login(): void
     {
         $this->validate();
-
         $this->form->authenticate();
-
         Session::regenerate();
 
-$user = auth()->user();
+        $user = auth()->user();
 
         if ($user->hasRole('admin')) {
-            $this->redirect('/admin', navigate: true);
+            $this->redirect('/admin');
         } elseif ($user->hasRole('merchant')) {
-            $this->redirect(route('merchant.dashboard', absolute: false), navigate: true);
+            $this->redirect('/merchant');
         } elseif ($user->hasRole('employee')) {
-            $this->redirect(route('employee.dashboard', absolute: false), navigate: true);
+            $this->redirect('/employee');
         } elseif ($user->hasRole('driver')) {
-            $this->redirect(route('driver.dashboard', absolute: false), navigate: true);
+            $this->redirect('/driver');
         } else {
-            // مسار احتياطي لو مستخدم عادي معندوش دور
-            $this->redirectIntended(default: route('dashboard', absolute: false), navigate: true);
-        }    }
+            $this->redirect('/');
+        }
+    }
 }; ?>
 
 <div>
