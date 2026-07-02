@@ -10,8 +10,6 @@ use Filament\Pages\Dashboard;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
-use Filament\Widgets\AccountWidget;
-use Filament\Widgets\FilamentInfoWidget;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\PreventRequestForgery;
@@ -27,17 +25,18 @@ class DriverPanelProvider extends PanelProvider
             ->id('driver')
             ->path('driver')
             ->colors([
-                'primary' => Color::Green,
+                'primary' => Color::Amber,
             ])
             ->discoverResources(in: app_path('Filament/Driver/Resources'), for: 'App\Filament\Driver\Resources')
             ->discoverPages(in: app_path('Filament/Driver/Pages'), for: 'App\Filament\Driver\Pages')
             ->pages([
                 Dashboard::class,
+                \App\Filament\Driver\Pages\MyOrders::class,
+                \App\Filament\Driver\Pages\DeliveredOrders::class,
+                \App\Filament\Driver\Pages\ReturnedOrders::class,
             ])
             ->discoverWidgets(in: app_path('Filament/Driver/Widgets'), for: 'App\Filament\Driver\Widgets')
             ->widgets([
-                AccountWidget::class,
-                FilamentInfoWidget::class,
             ])
             ->middleware([
                 EncryptCookies::class,

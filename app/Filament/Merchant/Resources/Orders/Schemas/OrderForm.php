@@ -1,6 +1,6 @@
 <?php
-namespace App\Filament\Resources\Orders\Schemas;
-use App\Models\User;
+namespace App\Filament\Merchant\Resources\Orders\Schemas;
+
 use App\Models\Governorate;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
@@ -9,24 +9,24 @@ use Filament\Forms\Components\Checkbox;
 use Filament\Schemas\Schema;
 use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Components\Utilities\Set;
-
+use Filament\Forms\Components\Hidden;
 class OrderForm
 {
     public static function configure(Schema $schema): Schema
     {
         return $schema
             ->components([
-                Select::make('merchant_id')
-                    ->label('Merchant')
-                    ->options(
-                        User::role('merchant')->pluck('name', 'id')->toArray()
-                    )
-                    ->searchable()
-                    ->required(),
+
+
+                Hidden::make('merchant_id')
+                    ->default(fn () => auth()->id())
+                    ->dehydrated(),
                 TextInput::make('customer_name')
                     ->required(),
-                TextInput::make('product_name')
-                    ->required(),
+                \Filament\Forms\Components\TextInput::make('product_name')
+                     ->label('اسم المنتج')
+                     ->required()
+                     ->maxLength(255),
                 TextInput::make('customer_phone')
                     ->tel()
                     ->required(),
@@ -34,8 +34,10 @@ class OrderForm
                     ->required()
                     ->columnSpanFull(),
                 Select::make('governorate_id')
-                    ->options(Governorate::pluck('name', 'id'))
+                    ->label('Governorate')
+                    ->relationship('governorate', 'name')
                     ->searchable()
+                    ->preload()
                     ->live()
                     ->afterStateUpdated(fn (Get $get, Set $set) =>
                         self::updatePrice($get, $set)
@@ -44,28 +46,10 @@ class OrderForm
                 TextInput::make('city')
                     ->required()
                     ->maxLength(255),
-                Select::make('driver_id')
-                    ->label('Driver')
-                    ->options(
-                        User::role('driver')
-                            ->with('governorate') // مهم لو العلاقة موجودة
-                            ->get()
-                            ->mapWithKeys(function ($driver) {
-                                return [
-                                    $driver->id => $driver->name .
-                                        ' - ' .
-                                        ($driver->governorate?->name ?? 'No Governorate')
-                                ];
-                            })
-                            ->toArray()
-                    )
-                    ->searchable()
-                    ->preload(),
-                Select::make('status_id')
-                    ->relationship('status', 'name')
-                    ->required()
-                    ->hiddenOn('create')
-                    ->visibleOn('edit'),
+                Hidden::make('status_id')
+                    ->default(function () {
+                    return \App\Models\Status::where('name', 'Pending')->value('id');
+                    }),
                 TextInput::make('order_value')
                     ->label('قيمة الأوردر')
                     ->numeric()

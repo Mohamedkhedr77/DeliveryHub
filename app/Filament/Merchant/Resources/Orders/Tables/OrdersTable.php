@@ -1,15 +1,14 @@
 <?php
 
-namespace App\Filament\Resources\Orders\Tables;
+namespace App\Filament\Merchant\Resources\Orders\Tables;
 
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
-use Filament\Actions\ViewAction;
+use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Filament\Tables\Filters\SelectFilter;
-use App\Models\User;
 
 class OrdersTable
 {
@@ -17,28 +16,25 @@ class OrdersTable
     {
         return $table
             ->columns([
-                TextColumn::make('merchant.name')
-                    ->label('Merchant'),
                 TextColumn::make('driver.name')
                     ->label('Driver')
-                    ->searchable(),
+                    ->placeholder('Not Assigned'),      
                 TextColumn::make('customer_name')
+                    ->searchable(),
+                TextColumn::make('product_name')
                     ->searchable(),
                 TextColumn::make('customer_phone')
                     ->searchable(),
                 TextColumn::make('governorate.name')
                     ->label('Governorate'),
-                TextColumn::make('city')
-                    ->searchable()
-                    ->sortable(),
                 TextColumn::make('status.name')
-                    ->label('Status'),
-                TextColumn::make('total_price')
-                    ->money()
+                    ->label('Status')
+                    ->badge(),
+                TextColumn::make('order_value')
+                    ->numeric()
                     ->sortable(),
                 TextColumn::make('weight')
-                    ->label('Weight')
-                    ->suffix(' kg')
+                    ->numeric()
                     ->sortable(),
                 TextColumn::make('created_at')
                     ->dateTime()
@@ -47,24 +43,37 @@ class OrdersTable
                 TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true)
-                
+                    ->toggleable(isToggledHiddenByDefault: true),
+                TextColumn::make('city')
+                    ->searchable(),
+                TextColumn::make('total_price')
+                    ->money()
+                    ->sortable(),
+                IconColumn::make('is_village')
+                    ->boolean(),
             ])
-            
+            ->modifyQueryUsing(function ($query) {
+    if (request()->filled('status_id')) {
+        $query->where('status_id', request('status_id'));
+    }
+})
             ->filters([
-                SelectFilter::make('status')
-            ->relationship('status', 'name')
-            ->label('Status'),
-                SelectFilter::make('driver_id')
-                    ->label('Driver')
-                    ->options(
-                        User::role('driver')->pluck('name', 'id')
-                    ),
-
-            ])
+    SelectFilter::make('status_id')
+        ->label('Status')
+        ->options([
+            1 => 'Pending',
+            2 => 'Assigned',
+            3 => 'Out For Delivery',
+            4 => 'Delivered',
+            5 => 'Returned',
+            6 => 'Cancelled',
+        ])
+])
+            ->recordUrl(null)
             ->recordActions([
-                ViewAction::make(),
-                EditAction::make(),
+                
+                EditAction::make()
+                ->visible(fn ($record) => $record->status_id == 1),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

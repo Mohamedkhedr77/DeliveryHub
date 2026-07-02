@@ -16,6 +16,7 @@ class Order extends Model
     'address',
     'governorate_id',
     'city',
+    'product_name',
     'order_value',
     'weight',
     'is_village',

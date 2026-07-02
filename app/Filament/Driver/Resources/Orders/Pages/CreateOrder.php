@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Filament\Merchant\Resources\Orders\Pages;
+namespace App\Filament\Driver\Resources\Orders\Pages;
 
-use App\Filament\Merchant\Resources\Orders\OrderResource;
+use App\Filament\Driver\Resources\OrderResource;
 use Filament\Resources\Pages\CreateRecord;
 
 class CreateOrder extends CreateRecord

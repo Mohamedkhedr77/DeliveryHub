@@ -13,14 +13,12 @@ class OrdersStats extends StatsOverviewWidget
     {
         $stats = [];
 
-        // إجمالي الأوردرات
         $stats[] = Stat::make('إجمالي الأوردرات', Order::count())
                 ->description('كل الأوردرات')
                 ->color('primary')
                 ->url(route('filament.admin.resources.orders.index'));
             
 
-        // كل الحالات
         foreach (Status::all() as $status) {
 
             $color = match (strtolower($status->name)) {
